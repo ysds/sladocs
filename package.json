@@ -3,6 +3,24 @@
   "version": "0.1.0",
   "description": "Zero-install Markdown preview server powered by fumadocs",
   "license": "MIT",
+  "author": "ysds",
+  "homepage": "https://sladocs.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ysds/sladocs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ysds/sladocs/issues"
+  },
+  "keywords": [
+    "markdown",
+    "preview",
+    "docs",
+    "documentation",
+    "fumadocs",
+    "mdx",
+    "cli"
+  ],
   "type": "module",
   "bin": {
     "sladocs": "./dist/lib/cli/index.mjs"
