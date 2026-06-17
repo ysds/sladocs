@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+@import '@fumadocs/base-ui/css/black.css';
+@import '@fumadocs/base-ui/css/preset.css';
+
+@theme {
+  --color-fd-background: hsl(0, 0%, 100%);
+  --color-fd-primary: hsl(220, 75%, 50%);
+}
+
+.prose :where(strong):not(:where([class~=not-prose],[class~=not-prose] *)) {
+  font-weight: 600;
+}

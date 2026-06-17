@@ -1,0 +1,3 @@
+{
+  "buildCommand": "rm -rf private && mkdir -p private && cp -R docs private/docs && pnpm build:app && node scripts/vercel-postbuild.mjs"
+}
