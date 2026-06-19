@@ -1,6 +1,13 @@
 import type { ReactNode } from 'react';
 import type { FrontmatterField } from '@/config/schema.js';
 
+function formatScalar(value: unknown): string {
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  return String(value);
+}
+
 function renderValue(value: unknown, badge?: boolean): ReactNode {
   if (value == null || value === '') return null;
 
@@ -15,24 +22,24 @@ function renderValue(value: unknown, badge?: boolean): ReactNode {
               key={i}
               className="inline-block rounded-md bg-fd-accent px-1.5 py-0.5 text-xs text-fd-accent-foreground"
             >
-              {String(v)}
+              {formatScalar(v)}
             </span>
           ))}
         </span>
       );
     }
-    return items.join(', ');
+    return items.map(formatScalar).join(', ');
   }
 
   if (badge) {
     return (
       <span className="inline-block rounded-md bg-fd-accent px-1.5 py-0.5 text-xs text-fd-accent-foreground">
-        {String(value)}
+        {formatScalar(value)}
       </span>
     );
   }
 
-  return String(value);
+  return formatScalar(value);
 }
 
 export function FrontmatterTable({ fields, data }: { fields: FrontmatterField[]; data: Record<string, unknown> }) {
