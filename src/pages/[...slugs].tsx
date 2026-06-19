@@ -28,6 +28,7 @@ import { createMarkdownCompiler, plugin, type CompileResult } from '@/lib/md.js'
 import { remarkGithubAlert } from '@/lib/remark-github-alert.js';
 import { revalidable } from '@/lib/revalidable.js';
 import type { MarkdownConfig } from '@/config/schema.js';
+import { FrontmatterTable } from '@/components/frontmatter-table.js';
 import { Diagnostics } from '@/components/diagnostics.js';
 import { Mermaid } from '@/components/mermaid.js';
 import { Image } from '@/components/image.js';
@@ -320,12 +321,17 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
     }),
   );
 
+  const frontmatterFields = config.frontmatter.display;
+
   return renderShell(
     <DocsPage toc={toc}>
       <title>{formatDocumentTitle(page.data.title, config.site.title)}</title>
       {page.data.description && <meta property="og:description" content={page.data.description} />}
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      {frontmatterFields && frontmatterFields.length > 0 && (
+        <FrontmatterTable fields={frontmatterFields} data={page.data.frontmatter} />
+      )}
       <DocsBody>
         <Fragment key={page.absolutePath}>{compiled.render(markdownComponents)}</Fragment>
       </DocsBody>

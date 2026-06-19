@@ -6,8 +6,10 @@ describe('configSchema', () => {
     const config = configSchema.parse({});
     expect(config.site).toEqual({ title: 'sladocs' });
     expect(config.markdown).toEqual({ allowDangerousHtml: 'safe' });
+    expect(config.frontmatter).toEqual({});
     expect(config.color).toEqual({});
     expect(config.projects).toBeUndefined();
+    expect(config.exclude).toBeUndefined();
     expect(config.i18n).toBeUndefined();
   });
 
@@ -55,6 +57,46 @@ describe('configSchema', () => {
         i18n: { languages: [], defaultLanguage: 'en' },
       });
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe('exclude', () => {
+    it('accepts a top-level exclude array', () => {
+      const config = configSchema.parse({ exclude: ['**/CLAUDE.md', '**/_template.md'] });
+      expect(config.exclude).toEqual(['**/CLAUDE.md', '**/_template.md']);
+    });
+
+    it('defaults to undefined when omitted', () => {
+      expect(configSchema.parse({}).exclude).toBeUndefined();
+    });
+  });
+
+  describe('frontmatter', () => {
+    it('defaults to empty when omitted', () => {
+      expect(configSchema.parse({}).frontmatter).toEqual({});
+    });
+
+    it('accepts a display array', () => {
+      const config = configSchema.parse({
+        frontmatter: {
+          display: [
+            { key: 'status', label: 'Status', badge: true },
+            { key: 'owner', label: 'Owner' },
+          ],
+        },
+      });
+      expect(config.frontmatter.display).toHaveLength(2);
+      expect(config.frontmatter.display![0]).toEqual({ key: 'status', label: 'Status', badge: true });
+      expect(config.frontmatter.display![1]).toEqual({ key: 'owner', label: 'Owner' });
+    });
+
+    it('rejects a field without key or label', () => {
+      expect(
+        configSchema.safeParse({ frontmatter: { display: [{ key: 'x' }] } }).success,
+      ).toBe(false);
+      expect(
+        configSchema.safeParse({ frontmatter: { display: [{ label: 'X' }] } }).success,
+      ).toBe(false);
     });
   });
 });
