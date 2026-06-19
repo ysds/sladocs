@@ -24,6 +24,7 @@ import { getSource, type Source, type SourcePage } from '@/lib/source/index.js';
 import { resolveSlugs } from '@/lib/source/i18n.js';
 import { getConfigRuntime } from '@/config/load-runtime.js';
 import { getDocsLayoutProps } from '@/layouts/config.js';
+import { PageMetaTags, type PageMeta } from '@/lib/meta.js';
 import { createMarkdownCompiler, plugin, type CompileResult } from '@/lib/md.js';
 import { remarkGithubAlert } from '@/lib/remark-github-alert.js';
 import { revalidable } from '@/lib/revalidable.js';
@@ -164,7 +165,7 @@ function getMarkdownComponents(page: SourcePage, source: Source) {
   };
 }
 
-async function renderShell(children: ReactNode, locale?: string) {
+async function renderShell(children: ReactNode, meta: PageMeta, locale?: string) {
   const config = await getConfigRuntime();
   // getSource is cached per config, so this does not rebuild the loader.
   const [layoutProps, { diagnostics }] = await Promise.all([
@@ -173,10 +174,18 @@ async function renderShell(children: ReactNode, locale?: string) {
   ]);
   return (
     <DocsLayout {...layoutProps}>
+      <PageMetaTags config={config} page={meta} />
       <Diagnostics diagnostics={diagnostics} />
       {children}
     </DocsLayout>
   );
+}
+
+// The request path for the current page, built from the catch-all slugs rather
+// than the request URL: under RSC the in-flight request can be an internal
+// `/RSC/...` fetch, so req.url is unreliable for canonical/og:url.
+function pathnameFromSlugs(rawSlugs: readonly string[]): string {
+  return '/' + rawSlugs.map(encodeURIComponent).join('/');
 }
 
 const HEADING_CLASS = 'text-fd-foreground font-medium first:mt-0 mt-6 mb-1';
@@ -226,16 +235,12 @@ function PageTreeList({ nodes, skipRef }: { nodes: TreeNode[]; skipRef?: string 
   );
 }
 
-function formatDocumentTitle(pageTitle: string, siteTitle: string): string {
-  if (pageTitle === siteTitle) return siteTitle;
-  return `${pageTitle} | ${siteTitle}`;
-}
-
 export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...slugs]'>) {
   const config = await getConfigRuntime();
   const { source } = await getSource(config);
   const { locale, slugs } = resolveSlugs(rawSlugs, config.i18n);
   const page = source.getPage(slugs, locale);
+  const pathname = pathnameFromSlugs(rawSlugs);
 
   // Synthetic project index: list the pages of that project as a tree. The tab
   // is the root folder that contains this synthetic index page as a child; the
@@ -254,20 +259,21 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
         {page.data.description && <DocsDescription>{page.data.description}</DocsDescription>}
         <PageTreeList nodes={tab?.children ?? []} skipRef={ref} />
       </DocsPage>,
+      { title: page.data.title, description: page.data.description, pathname },
       locale,
     );
   }
 
   if (!page) {
     if (slugs.length === 0) {
+      const rootDescription = config.site.description ?? 'All Markdown files in the project.';
       return renderShell(
         <DocsPage>
           <DocsTitle>{config.site.title}</DocsTitle>
-          <DocsDescription>
-            {config.site.description ?? 'All Markdown files in the project.'}
-          </DocsDescription>
+          <DocsDescription>{rootDescription}</DocsDescription>
           <PageTreeList nodes={source.getPageTree(locale).children} />
         </DocsPage>,
+        { title: config.site.title, description: rootDescription, pathname },
         locale,
       );
     }
@@ -276,6 +282,7 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
         <DocsTitle>Not Found</DocsTitle>
         <DocsDescription>The page you are looking for does not exist.</DocsDescription>
       </DocsPage>,
+      { title: 'Not Found', description: 'The page you are looking for does not exist.' },
       locale,
     );
   }
@@ -305,6 +312,7 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
           <DocsDescription>{String(e)}</DocsDescription>
         )}
       </DocsPage>,
+      { title: 'Failed to Compile' },
     );
   }
 
@@ -322,14 +330,13 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
 
   return renderShell(
     <DocsPage toc={toc}>
-      <title>{formatDocumentTitle(page.data.title, config.site.title)}</title>
-      {page.data.description && <meta property="og:description" content={page.data.description} />}
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <DocsBody>
         <Fragment key={page.absolutePath}>{compiled.render(markdownComponents)}</Fragment>
       </DocsBody>
     </DocsPage>,
+    { title: page.data.title, description: page.data.description, pathname },
     locale,
   );
 }

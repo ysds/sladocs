@@ -34,6 +34,18 @@ describe('configSchema', () => {
     expect(configSchema.safeParse({ site: { github: 'org/repo' } }).success).toBe(false);
   });
 
+  it('rejects a non-URL site.url', () => {
+    expect(configSchema.safeParse({ site: { url: 'not a url' } }).success).toBe(false);
+  });
+
+  it('keeps ogImage/favicon as-is whether relative or absolute', () => {
+    const config = configSchema.parse({
+      site: { ogImage: 'og.png', favicon: 'https://cdn.example.com/icon.svg' },
+    });
+    expect(config.site.ogImage).toBe('og.png');
+    expect(config.site.favicon).toBe('https://cdn.example.com/icon.svg');
+  });
+
   describe('i18n', () => {
     it('defaults the parser to dot', () => {
       const config = configSchema.parse({

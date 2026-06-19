@@ -11,7 +11,10 @@ const siteSchemaBase = z.object({
   title: z.string().default('sladocs'),
   description: z.string().optional(),
   logo: z.string().optional(),
-  github: z.string().url().optional(),
+  github: z.url().optional(),
+  url: z.url().optional(),
+  ogImage: z.string().optional(),
+  favicon: z.string().optional(),
 });
 
 export const siteSchema = siteSchemaBase.default(() => siteSchemaBase.parse({}));

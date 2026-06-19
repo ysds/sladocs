@@ -11,6 +11,6 @@ export default defineConfig({
     environment: 'node',
     // Route handler tests live in tests/: waku treats every file under
     // src/pages as a route module, so they cannot be co-located there.
-    include: ['src/**/*.test.ts', 'tests/**/*.test.ts'],
+    include: ['src/**/*.test.{ts,tsx}', 'tests/**/*.test.{ts,tsx}'],
   },
 });

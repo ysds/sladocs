@@ -24,7 +24,10 @@ If none is found, it runs with the defaults.
     "title": "My Project",
     "description": "Project docs and guides",
     "logo": "./logo.svg",
-    "github": "https://github.com/ysds/my-project"
+    "github": "https://github.com/ysds/my-project",
+    "url": "https://my-project.example.com",
+    "ogImage": "og-image.png",
+    "favicon": "favicon.ico"
   },
   "projects": [
     {
@@ -56,9 +59,12 @@ Every field is optional. You can omit `site` entirely.
 | Field | Type | Default | Notes |
 | --- | --- | --- | --- |
 | `title` | `string` | `"sladocs"` | Shown in the sidebar and the `<title>`. |
-| `description` | `string` | – | Shown on the home page. |
+| `description` | `string` | – | Shown on the home page and used as the default meta description. |
 | `logo` | `string` | – | A path or URL. Defaults to the built-in mark if not set. |
 | `github` | `string` (URL) | – | Adds a "GitHub" link to the sidebar. |
+| `url` | `string` (URL) | – | Public base URL of the deployed site. Required to emit absolute `og:url`, `canonical`, and absolute `og:image` tags. |
+| `ogImage` | `string` | – | Social-share image. A path relative to the project dir (served via `/api/asset`) or an absolute URL. Made absolute with `url`. |
+| `favicon` | `string` | – | Favicon. A path relative to the project dir or an absolute URL. |
 
 ### `projects`
 

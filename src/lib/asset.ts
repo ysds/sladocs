@@ -46,6 +46,11 @@ export function mimeFor(file: string): string {
   return MIME[path.extname(file).toLowerCase()] ?? 'application/octet-stream';
 }
 
+// True for an absolute URL or a protocol-relative (`//host/...`) reference.
+export function isAbsoluteRef(ref: string): boolean {
+  return URL.canParse(ref) || ref.startsWith('//');
+}
+
 const ASSET_PREFIX = '/api/asset';
 
 // Build a serving URL for a relative reference inside a Markdown page.

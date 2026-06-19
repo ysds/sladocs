@@ -3,6 +3,7 @@ import path from 'node:path';
 import { parse as parseYaml } from 'yaml';
 import { z } from 'zod';
 import { configSchema, type ParsedAppConfig } from './schema.js';
+import { isAbsoluteRef } from '@/lib/asset.js';
 
 const CANDIDATES = ['sladocs.json', 'sladocs.yaml', 'sladocs.yml'];
 
@@ -23,7 +24,21 @@ export function parseConfig(file: string, raw: unknown): ParsedAppConfig {
       { cause: result.error },
     );
   }
+  warnSiteConfig(file, result.data);
   return result.data;
+}
+
+// Misconfigurations that should not reject the config but leave meta tags
+// silently broken. Warns once at load time (see getConfigRuntime caching).
+function warnSiteConfig(file: string, config: ParsedAppConfig): void {
+  const { site } = config;
+  // A relative ogImage needs site.url to become absolute; an absolute one works
+  // on its own, so only the relative case is broken by a missing site.url.
+  if (site.ogImage && !isAbsoluteRef(site.ogImage) && !site.url) {
+    console.warn(
+      `"${file}": site.ogImage is a relative path but site.url is missing; og:image needs an absolute URL and will be omitted.`,
+    );
+  }
 }
 
 export function loadConfigFile(file: string): ParsedAppConfig {
