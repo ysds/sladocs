@@ -9,7 +9,7 @@ const getServer = revalidable({
     return flexsearchFromSource(source, {
       buildIndex(page) {
         return {
-          id: page.absolutePath!,
+          id: page.url,
           structuredData: structure(page.data.content),
           title: page.data.title,
           description: page.data.description,
@@ -24,9 +24,15 @@ export async function GET(request: Request) {
   const config = await getConfigRuntime();
   const { source } = await getSource(config);
   const server = await getServer(source);
+  if (process.env.SLADOCS_STATIC === '1') {
+    return server.staticGET();
+  }
   return server.GET(request);
 }
 
 export async function getConfig() {
+  if (process.env.SLADOCS_STATIC === '1') {
+    return { render: 'static' } as const;
+  }
   return { render: 'dynamic' } as const;
 }
