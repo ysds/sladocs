@@ -49,6 +49,18 @@ program
     },
   );
 
+program
+  .command('export')
+  .description('Export static HTML for deployment')
+  .argument('[dirs...]', 'directories to export (default: cwd)')
+  .option('-o, --out <dir>', 'output directory', './out')
+  .action(
+    async (dirs: string[], opts: { out: string }) => {
+      const { runExport } = await import('./export.js');
+      await runExport(dirs, opts.out, baseDir);
+    },
+  );
+
 program.parseAsync(process.argv).catch((err) => {
   console.error(err);
   process.exit(1);

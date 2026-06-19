@@ -26,7 +26,7 @@ export default async function RootElement({ children }: { children: ReactNode })
         style={style}
       >
         <Provider i18n={config.i18n}>{children}</Provider>
-        <HotReload />
+        {process.env.SLADOCS_STATIC !== '1' && <HotReload />}
       </body>
     </html>
   );
@@ -41,5 +41,8 @@ function requestPathname(): string {
 }
 
 export async function getConfig() {
+  if (process.env.SLADOCS_STATIC === '1') {
+    return { render: 'static' } as const;
+  }
   return { render: 'dynamic' } as const;
 }

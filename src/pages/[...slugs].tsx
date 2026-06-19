@@ -27,6 +27,7 @@ import { getDocsLayoutProps } from '@/layouts/config.js';
 import { createMarkdownCompiler, plugin, type CompileResult } from '@/lib/md.js';
 import { remarkGithubAlert } from '@/lib/remark-github-alert.js';
 import { revalidable } from '@/lib/revalidable.js';
+import { buildStaticPaths } from '@/lib/static-paths.js';
 import type { MarkdownConfig } from '@/config/schema.js';
 import { FrontmatterTable } from '@/components/frontmatter-table.js';
 import { Diagnostics } from '@/components/diagnostics.js';
@@ -341,5 +342,12 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
 }
 
 export async function getConfig() {
-  return { render: 'dynamic' } as const;
+  if (process.env.SLADOCS_STATIC !== '1') {
+    return { render: 'dynamic' } as const;
+  }
+
+  const config = await getConfigRuntime();
+  const { source } = await getSource(config);
+  const paths = buildStaticPaths(source.getPages(), config.i18n);
+  return { render: 'static', staticPaths: paths } as const;
 }
