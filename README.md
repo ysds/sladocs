@@ -74,7 +74,7 @@ defaults aren't enough:
 }
 ```
 
-See [packages/sladocs/docs/configuration.md](packages/sladocs/docs/configuration.md)
+See [docs/configuration.md](docs/configuration.md)
 for the full schema, including theme color, raw-HTML handling, and
 internationalization (`i18n`).
 

@@ -1,7 +1,0 @@
-{
-  "buildCommand": "pnpm build:lib && node dist/lib/cli/build-cli.mjs docs --out ./_site",
-  "outputDirectory": "_site",
-  "git": {
-    "deploymentEnabled": false
-  }
-}

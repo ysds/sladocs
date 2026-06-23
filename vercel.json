@@ -1,0 +1,7 @@
+{
+  "buildCommand": "pnpm --filter sladocs build:lib && node packages/sladocs/dist/lib/cli/build-cli.mjs docs --out ./_site",
+  "outputDirectory": "_site",
+  "git": {
+    "deploymentEnabled": false
+  }
+}

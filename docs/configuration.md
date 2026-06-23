@@ -109,7 +109,7 @@ Controls how the Markdown pipeline handles raw HTML inside source files.
 
 | Field | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `allowDangerousHtml` | `"off"` \| `"safe"` \| `"all"` | `"safe"` | See [Inline HTML](./markdown#inline-html). |
+| `allowDangerousHtml` | `"off"` \| `"safe"` \| `"all"` | `"safe"` | See [Inline HTML](./markdown.md#inline-html). |
 
 - `"safe"` — renders raw HTML while the GFM tag filter escapes unsafe tags (`iframe`, `script`, `style`, and so on) to plain text. Matches GitHub's web rendering.
 - `"off"` — discards raw HTML entirely. Use this when you want only Markdown syntax reflected in the output.

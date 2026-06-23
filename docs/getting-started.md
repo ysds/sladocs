@@ -41,7 +41,7 @@ Press `Ctrl-C` to cleanly shut down the file watcher and the HTTP server.
 
 For a git repository, files listed in `.gitignore` are excluded automatically — you don't need to spell out `node_modules`, `dist`, and so on. For a non-git directory, only `node_modules` is excluded.
 
-You can also tune what gets collected with [`include` / `exclude`](./configuration#projects).
+You can also tune what gets collected with [`include` / `exclude`](./configuration.md#projects).
 
 ## Live reload
 
@@ -55,7 +55,7 @@ By default, `sladocs` collects Markdown from a single directory. Pass two or mor
 npx sladocs ./docs ./packages/web
 ```
 
-Each directory becomes a separate tab (dropdown) in the top navigation. Tab labels use the folder name, but you can override them in `sladocs.json` (see [Configuration](./configuration)).
+Each directory becomes a separate tab (dropdown) in the top navigation. Tab labels use the folder name, but you can override them in `sladocs.json` (see [Configuration](./configuration.md)).
 
 ## Multiple languages
 
@@ -67,7 +67,7 @@ Declare your languages in `sladocs.json` and name files by locale (`guide.md`, `
 }
 ```
 
-See [`i18n`](./configuration#i18n) for file naming, URL layout, and switcher labels.
+See [`i18n`](./configuration.md#i18n) for file naming, URL layout, and switcher labels.
 
 ## CLI reference
 
@@ -83,7 +83,7 @@ sladocs [dirs...] [options]
 | --- | --- |
 | `dirs...` | One or more directories to preview. Defaults to the current working directory. When you specify multiple, each becomes a tab in the top navigation. |
 
-If `projects` is declared in `sladocs.json`, the CLI arguments are ignored and the configuration takes precedence (see [Configuration](./configuration)).
+If `projects` is declared in `sladocs.json`, the CLI arguments are ignored and the configuration takes precedence (see [Configuration](./configuration.md)).
 
 ### Options
 

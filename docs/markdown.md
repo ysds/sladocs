@@ -238,7 +238,7 @@ GFM's tag filter escapes unsafe tags to plain text rather than rendering them: `
 
 [gfm-disallowed]: https://github.github.com/gfm/#disallowed-raw-html-extension-
 
-You can adjust this behavior with [`markdown.allowDangerousHtml`](./configuration#markdown).
+You can adjust this behavior with [`markdown.allowDangerousHtml`](./configuration.md#markdown).
 
 - `"safe"` (default) — the GFM tag filter described above.
 - `"off"` — strips raw HTML entirely, reflecting only Markdown syntax.
@@ -253,4 +253,4 @@ text.
 
 ## Frontmatter
 
-See [Navigation](./navigation#frontmatter) for the supported fields.
+See [Navigation](./navigation.md#frontmatter) for the supported fields.

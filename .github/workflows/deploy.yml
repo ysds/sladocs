@@ -35,11 +35,8 @@ jobs:
 
       - run: npm install -g vercel@latest
 
-      # The Vercel project config (vercel.json, .vercel) lives in the sladocs
-      # package; run the Vercel CLI from there so it picks up the right build.
+      # The Vercel project config (vercel.json) and docs now live at the repo
+      # root, so run the Vercel CLI from there.
       - run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: packages/sladocs
       - run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: packages/sladocs
       - run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: packages/sladocs

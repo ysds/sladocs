@@ -103,7 +103,7 @@ A `meta.json` that fails to parse (broken JSON, or a wrong field type such as `"
 
 ## Multi-project tabs
 
-When you configure two or more projects in [Configuration](./configuration#projects), each project becomes a **tab** at the top of the sidebar. Switching tabs shows only that project's tree, and the project's slug (derived from `name`) is prefixed to every page URL (e.g. `/guides/install`).
+When you configure two or more projects in [Configuration](./configuration.md#projects), each project becomes a **tab** at the top of the sidebar. Switching tabs shows only that project's tree, and the project's slug (derived from `name`) is prefixed to every page URL (e.g. `/guides/install`).
 
 ```json
 {
