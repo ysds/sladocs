@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import 'katex/dist/katex.min.css';
 import { Provider } from '@/components/provider.js';
 import { HotReload } from '@/components/hot-reload.js';
-import { unstable_getContext as getContext } from 'waku/server';
+import { unstable_getRequest as getRequest } from 'waku/router/server';
 import { getConfigRuntime } from '@/config/load-runtime.js';
 import { localeFromPathname } from '@/lib/source/i18n.js';
 import { RootMeta } from '@/lib/meta.js';
@@ -40,7 +40,7 @@ export default async function RootElement({ children }: { children: ReactNode })
 
 function requestPathname(): string {
   try {
-    return new URL(getContext().req.url).pathname;
+    return new URL(getRequest().url).pathname;
   } catch {
     return '/';
   }
