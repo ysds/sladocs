@@ -1,0 +1,66 @@
+# Example workflow: build a static docs site with sladocs-build and publish it
+# to GitHub Pages. Copy this into your repo as .github/workflows/docs.yml and
+# adjust `DOCS_DIR` and the build args to your project.
+#
+# Enable Pages once under Settings > Pages > Source: "GitHub Actions".
+name: Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  # Directory holding your Markdown/MDX (and an optional sladocs.json next to
+  # where you run the command). Adjust to taste.
+  DOCS_DIR: docs
+  # Pin the version so the npm cache key stays stable across runs.
+  SLADOCS_BUILD_VERSION: latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          # Caches ~/.npm so the heavy sladocs-build dependency tree is only
+          # downloaded once; subsequent runs restore it from cache.
+          cache: npm
+
+      - name: Build static site
+        # Project Pages are served from /<repo>/, so set --base-path to match.
+        # For a user/org Pages site (served from /), drop --base-path.
+        run: |
+          npx --yes sladocs-build@${{ env.SLADOCS_BUILD_VERSION }} \
+            "${DOCS_DIR}" \
+            --out ./_site \
+            --base-path "/${GITHUB_REPOSITORY#*/}/"
+
+      # deploy-pages serves the artifact as-is, including the `_app/` directory,
+      # so no `.nojekyll` is needed here. If you instead publish to a `gh-pages`
+      # branch, add `touch ./_site/.nojekyll` so Jekyll leaves `_app/` alone.
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

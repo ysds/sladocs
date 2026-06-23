@@ -74,21 +74,39 @@ defaults aren't enough:
 }
 ```
 
-See [docs/configuration.md](docs/configuration.md) for the full schema, including
-theme color, raw-HTML handling, and internationalization (`i18n`).
+See [packages/sladocs/docs/configuration.md](packages/sladocs/docs/configuration.md)
+for the full schema, including theme color, raw-HTML handling, and
+internationalization (`i18n`).
+
+## Static builds
+
+To publish the docs as a static site (GitHub Pages or any web server), use the
+companion CLI [`sladocs-build`](packages/sladocs-build):
+
+```bash
+npx sladocs-build ./docs --out ./site
+```
+
+It produces plain HTML/CSS/JS — no server needed. Supports `--base-path` for
+subpath hosting and the same `sladocs.json` config.
 
 ## Development
 
+This repo is a pnpm workspace with two published packages — `sladocs`
+(`packages/sladocs`, the preview server) and `sladocs-build`
+(`packages/sladocs-build`, the static-site CLI):
+
 ```bash
 pnpm install
-pnpm build         # waku build && tsdown
+pnpm build         # builds all packages
 pnpm types:check
+pnpm test
 ```
 
 Preview your build against a real docs tree:
 
 ```bash
-node dist/lib/cli/index.mjs ./docs
+node packages/sladocs/dist/lib/cli/index.mjs ./docs
 ```
 
 ## License

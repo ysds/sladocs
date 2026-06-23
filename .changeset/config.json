@@ -6,7 +6,7 @@
   ],
   "commit": false,
   "fixed": [],
-  "linked": [],
+  "linked": [["sladocs", "sladocs-build"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",

@@ -1,0 +1,12 @@
+{
+  "title": "sladocs",
+  "pages": [
+    "index",
+    "getting-started",
+    "---Guides---",
+    "markdown",
+    "navigation",
+    "configuration",
+    "static-builds"
+  ]
+}

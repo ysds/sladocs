@@ -1,0 +1,70 @@
+{
+  "name": "sladocs-build",
+  "version": "0.2.0",
+  "description": "Build a static documentation site from Markdown, powered by fumadocs",
+  "license": "MIT",
+  "author": "ysds",
+  "homepage": "https://sladocs.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ysds/sladocs.git",
+    "directory": "packages/sladocs-build"
+  },
+  "bugs": {
+    "url": "https://github.com/ysds/sladocs/issues"
+  },
+  "keywords": [
+    "markdown",
+    "static-site",
+    "ssg",
+    "docs",
+    "documentation",
+    "fumadocs",
+    "mdx",
+    "cli"
+  ],
+  "type": "module",
+  "bin": {
+    "sladocs-build": "./bin.mjs"
+  },
+  "files": [
+    "bin.mjs",
+    "examples",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "true",
+    "types:check": "true",
+    "test": "true"
+  },
+  "dependencies": {
+    "sladocs": "workspace:*",
+    "@fumadocs/base-ui": "catalog:",
+    "@tailwindcss/vite": "catalog:",
+    "beautiful-mermaid": "catalog:",
+    "commander": "catalog:",
+    "flexsearch": "catalog:",
+    "fumadocs-core": "catalog:",
+    "hast-util-to-jsx-runtime": "catalog:",
+    "ignore": "catalog:",
+    "katex": "catalog:",
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "rehype-katex": "catalog:",
+    "rehype-raw": "catalog:",
+    "remark": "catalog:",
+    "remark-gfm": "catalog:",
+    "remark-math": "catalog:",
+    "remark-rehype": "catalog:",
+    "tailwindcss": "catalog:",
+    "tinyglobby": "catalog:",
+    "unified": "catalog:",
+    "unist-util-visit": "catalog:",
+    "vfile": "catalog:",
+    "vite": "catalog:",
+    "waku": "catalog:",
+    "yaml": "catalog:",
+    "zod": "catalog:"
+  }
+}
