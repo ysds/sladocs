@@ -20,13 +20,13 @@ import { startWatcher } from '../source/watcher.js';
 import { encodeEvent, type WebSocketEvent } from './hot-reload.js';
 
 const { DIST_PUBLIC } = constants;
-const { contextMiddleware, rscMiddleware, middlewareRunner } = honoMiddleware;
+const { rscMiddleware, middlewareRunner } = honoMiddleware;
 
 export default createServerEntryAdapter(
   (
     { processRequest, processBuild, config, isBuild, notFoundHtml },
     options?: {
-      middlewareFns?: (() => MiddlewareHandler)[];
+      middlewareFns?: ((opts: { app: Hono }) => MiddlewareHandler)[];
       middlewareModules?: Record<string, () => Promise<unknown>>;
     },
   ) => {
@@ -96,9 +96,8 @@ export default createServerEntryAdapter(
       };
     }
 
-    app.use(contextMiddleware() as never);
-    for (const fn of middlewareFns) app.use(fn());
-    app.use(middlewareRunner(middlewareModules as never) as never);
+    for (const fn of middlewareFns) app.use(fn({ app }));
+    app.use(middlewareRunner(middlewareModules as never, { app }) as never);
     app.use(rscMiddleware({ processRequest }) as never);
 
     const buildOptions: BuildOptions = { distDir: config.distDir };

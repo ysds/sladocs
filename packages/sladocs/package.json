@@ -61,7 +61,7 @@
     "flexsearch": "catalog:",
     "fumadocs-core": "catalog:",
     "hast-util-to-jsx-runtime": "catalog:",
-    "hono": "^4.12.23",
+    "hono": "^4.12.26",
     "ignore": "catalog:",
     "katex": "catalog:",
     "lucide-react": "catalog:",
