@@ -33,6 +33,8 @@ Write in GitHub Flavored Markdown and preview it locally, close to how it will l
 - `meta.json` navigation, resolved links between pages, and full-text search.
 - Hot reload on save, plus a multi-project layout for several directories at once.
 
+When you are ready to publish, [`sladocs-build`](./static-builds) turns the same docs into a static site for GitHub Pages or any web server.
+
 ## How it differs from fumadocs-preview
 
 Fumadocs also has an official CLI, [fumadocs-preview](https://www.fumadocs.dev/docs/cli/preview), for quickly displaying a Markdown directory. When the two overlap, keep these differences in mind:
