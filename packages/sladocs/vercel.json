@@ -1,5 +1,6 @@
 {
-  "buildCommand": "rm -rf private && mkdir -p private && cp -R docs private/docs && pnpm build:app && node scripts/vercel-postbuild.mjs",
+  "buildCommand": "pnpm build:lib && node dist/lib/cli/build-cli.mjs docs --out ./_site",
+  "outputDirectory": "_site",
   "git": {
     "deploymentEnabled": false
   }
