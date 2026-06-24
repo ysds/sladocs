@@ -1,5 +1,15 @@
 # sladocs
 
+## 0.4.0
+
+### Minor Changes
+
+- [#2](https://github.com/ysds/sladocs/pull/2) [`a76474b`](https://github.com/ysds/sladocs/commit/a76474b9659a2caea89b63254b7fe4de25d8a279) Thanks [@px4n](https://github.com/px4n)! - Add a frontmatter metadata table. Configure `frontmatter.fields` in your config to render selected frontmatter values (with optional `badge` style) between the page title and body. Also adds a top-level `exclude` that merges shared glob patterns into every project.
+
+### Patch Changes
+
+- [#2](https://github.com/ysds/sladocs/pull/2) [`a76474b`](https://github.com/ysds/sladocs/commit/a76474b9659a2caea89b63254b7fe4de25d8a279) Thanks [@px4n](https://github.com/px4n)! - Fix the search index using the absolute filesystem path as the document ID, which leaked build-machine paths. It now uses the page URL instead.
+
 ## 0.3.0
 
 ### Minor Changes
