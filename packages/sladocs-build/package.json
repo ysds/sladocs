@@ -1,6 +1,6 @@
 {
   "name": "sladocs-build",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Build a static documentation site from Markdown, powered by fumadocs",
   "license": "MIT",
   "author": "ysds",

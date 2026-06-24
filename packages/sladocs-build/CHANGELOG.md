@@ -1,5 +1,12 @@
 # sladocs-build
 
+## 0.4.0
+
+### Patch Changes
+
+- Updated dependencies [[`a76474b`](https://github.com/ysds/sladocs/commit/a76474b9659a2caea89b63254b7fe4de25d8a279), [`a76474b`](https://github.com/ysds/sladocs/commit/a76474b9659a2caea89b63254b7fe4de25d8a279)]:
+  - sladocs@0.4.0
+
 ## 0.3.0
 
 ### Minor Changes
