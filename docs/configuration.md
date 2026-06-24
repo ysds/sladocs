@@ -4,7 +4,7 @@ description: Optional JSON / YAML configuration for site metadata and multiple p
 icon: Settings
 ---
 
-`sladocs` works with no configuration. When the defaults aren't enough — multiple documentation roots, a site title, a GitHub link, and so on — place a single JSON or YAML file next to your docs.
+`sladocs` works with no configuration, but you can fine-tune it by placing a single JSON or YAML file next to your docs.
 
 ## File name
 
@@ -75,7 +75,7 @@ Every field is optional. You can omit `site` entirely.
 
 ### `projects`
 
-Specify multiple documentation roots to enable the "multi-project layout." You can also use it with a single folder to narrow what gets collected. If you omit `projects` entirely, the working directory is treated as a single project.
+Specify multiple documentation roots to enable the "multi-project layout." If you omit `projects` entirely, the working directory is treated as a single project.
 
 ```json
 {
@@ -100,7 +100,7 @@ A top-level `exclude` declares patterns once and merges them into every project'
 
 ```json
 {
-  "exclude": ["**/CLAUDE.md", "_template.md"],
+  "exclude": ["**/AGENT.md", "_template.md"],
   "projects": [{ "dir": "./docs", "exclude": ["drafts/**"] }]
 }
 ```
@@ -109,7 +109,7 @@ A top-level `exclude` declares patterns once and merges them into every project'
 | --- | --- | --- | --- |
 | `exclude` | `string[]` | – | tinyglobby patterns prepended to every project's `exclude`. A project's own `exclude` is applied after these. |
 
-In the example above, the `docs` project effectively excludes `["**/CLAUDE.md", "_template.md", "drafts/**"]`.
+In the example above, the `docs` project effectively excludes `["**/AGENT.md", "_template.md", "drafts/**"]`.
 
 ### `color`
 
@@ -141,7 +141,7 @@ Controls how the Markdown pipeline handles raw HTML inside source files.
 
 ### `frontmatter`
 
-Render a metadata table from page frontmatter, shown between the page title and body. Set `fields` to the frontmatter you want surfaced; pages that lack a field simply omit that row. Omit `frontmatter` entirely and no table is rendered.
+Render a metadata table from page frontmatter, shown between the page title and body. Set `fields` to the frontmatter you want surfaced. Omit `frontmatter` entirely and no table is rendered.
 
 ```json
 {

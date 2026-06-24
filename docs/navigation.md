@@ -31,8 +31,6 @@ Page body starts here.
 | `description` | `string` | Used on the index page and in the `<meta>` description. |
 | `icon` | `string` | A [Lucide](https://lucide.dev) icon name (e.g. `FileText`). |
 
-Frontmatter is parsed as YAML.
-
 Pages can carry any other fields too (`status`, `author`, and so on). These don't affect navigation, but you can surface them as a metadata table at the top of the page — see [`frontmatter`](./configuration.md#frontmatter) in the configuration.
 
 ## `meta.json`
