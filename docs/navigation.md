@@ -33,6 +33,8 @@ Page body starts here.
 
 Frontmatter is parsed as YAML.
 
+Pages can carry any other fields too (`status`, `author`, and so on). These don't affect navigation, but you can surface them as a metadata table at the top of the page — see [`frontmatter`](./configuration.md#frontmatter) in the configuration.
+
 ## `meta.json`
 
 Place a `meta.json` in any folder to control how it appears in the sidebar.

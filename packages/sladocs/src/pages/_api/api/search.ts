@@ -9,7 +9,7 @@ const getServer = revalidable({
     return flexsearchFromSource(source, {
       buildIndex(page) {
         return {
-          id: page.absolutePath!,
+          id: page.url,
           structuredData: structure(page.data.content),
           title: page.data.title,
           description: page.data.description,

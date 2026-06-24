@@ -50,12 +50,26 @@ export const i18nSchema = z
   })
   .optional();
 
+const frontmatterFieldSchema = z.object({
+  key: z.string(),
+  label: z.string().optional(),
+  style: z.enum(['text', 'badge']).default('text'),
+});
+
+const frontmatterSchemaBase = z.object({
+  fields: z.array(frontmatterFieldSchema).optional(),
+});
+
+export const frontmatterSchema = frontmatterSchemaBase.default(() => frontmatterSchemaBase.parse({}));
+
 export const configSchema = z.object({
   $schema: z.string().optional(),
   projects: z.array(projectSchema).optional(),
+  exclude: z.array(z.string()).optional(),
   site: siteSchema,
   markdown: markdownSchema,
   color: colorSchema,
+  frontmatter: frontmatterSchema,
   i18n: i18nSchema,
 });
 
@@ -64,5 +78,7 @@ export type SiteConfig = z.output<typeof siteSchema>;
 export type MarkdownConfig = z.output<typeof markdownSchema>;
 export type ColorConfig = z.output<typeof colorSchema>;
 export type I18nConfig = NonNullable<z.output<typeof i18nSchema>>;
+export type FrontmatterField = z.output<typeof frontmatterFieldSchema>;
+export type FrontmatterConfig = z.output<typeof frontmatterSchemaBase>;
 export type AppConfig = z.input<typeof configSchema>;
 export type ParsedAppConfig = z.output<typeof configSchema>;

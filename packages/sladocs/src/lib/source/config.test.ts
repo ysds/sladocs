@@ -62,4 +62,18 @@ describe('normalizeProjects', () => {
     const projects = normalize({});
     expect(projects.map((p) => p.dir)).toEqual(['/base/a', '/base/b']);
   });
+
+  it('merges top-level exclude into every project', () => {
+    const projects = normalize({
+      exclude: ['**/CLAUDE.md', '**/AGENTS.md'],
+      projects: [{ dir: '/a' }, { dir: '/b', exclude: ['tmp/**'] }],
+    });
+    expect(projects[0]!.exclude).toEqual(['**/CLAUDE.md', '**/AGENTS.md']);
+    expect(projects[1]!.exclude).toEqual(['**/CLAUDE.md', '**/AGENTS.md', 'tmp/**']);
+  });
+
+  it('leaves project exclude empty when no global or project exclude is set', () => {
+    const [project] = normalize({ projects: [{ dir: '/a' }] });
+    expect(project!.exclude).toEqual([]);
+  });
 });

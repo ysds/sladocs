@@ -31,6 +31,7 @@ import { revalidable } from '@/lib/revalidable.js';
 import { isStatic } from '@/lib/env.js';
 import { computeStaticPaths } from '@/lib/source/static-paths.js';
 import type { MarkdownConfig } from '@/config/schema.js';
+import { FrontmatterTable } from '@/components/frontmatter-table.js';
 import { Diagnostics } from '@/components/diagnostics.js';
 import { Mermaid } from '@/components/mermaid.js';
 import { Image } from '@/components/image.js';
@@ -330,10 +331,15 @@ export default async function DocsSlugPage({ slugs: rawSlugs }: PageProps<'/[...
     }),
   );
 
+  const frontmatterFields = config.frontmatter.fields;
+
   return renderShell(
     <DocsPage toc={toc}>
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
+      {frontmatterFields && frontmatterFields.length > 0 && (
+        <FrontmatterTable fields={frontmatterFields} data={page.data.frontmatter} />
+      )}
       <DocsBody>
         <Fragment key={page.absolutePath}>{compiled.render(markdownComponents)}</Fragment>
       </DocsBody>

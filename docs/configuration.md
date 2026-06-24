@@ -29,6 +29,7 @@ If none is found, it runs with the defaults.
     "ogImage": "og-image.png",
     "favicon": "favicon.ico"
   },
+  "exclude": ["**/AGENT.md", "_template.md"],
   "projects": [
     {
       "name": "Guides",
@@ -42,6 +43,12 @@ If none is found, it runs with the defaults.
   },
   "markdown": {
     "allowDangerousHtml": "safe"
+  },
+  "frontmatter": {
+    "fields": [
+      { "key": "status", "label": "Status", "style": "badge" },
+      { "key": "author", "label": "Author" }
+    ]
   },
   "i18n": {
     "languages": ["en", "ja"],
@@ -87,6 +94,23 @@ Specify multiple documentation roots to enable the "multi-project layout." You c
 
 When you configure two or more projects, each becomes a tab (dropdown) at the top of the sidebar, and its slug is prefixed to every page URL.
 
+### `exclude` (top-level)
+
+A top-level `exclude` declares patterns once and merges them into every project's `exclude` list, so shared patterns like `CLAUDE.md` or template files don't have to be repeated per project.
+
+```json
+{
+  "exclude": ["**/CLAUDE.md", "_template.md"],
+  "projects": [{ "dir": "./docs", "exclude": ["drafts/**"] }]
+}
+```
+
+| Field | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `exclude` | `string[]` | – | tinyglobby patterns prepended to every project's `exclude`. A project's own `exclude` is applied after these. |
+
+In the example above, the `docs` project effectively excludes `["**/CLAUDE.md", "_template.md", "drafts/**"]`.
+
 ### `color`
 
 Override the site's theme color. Every field is optional; if you omit `color` entirely, the built-in theme colors are used as-is.
@@ -114,6 +138,38 @@ Controls how the Markdown pipeline handles raw HTML inside source files.
 - `"safe"` — renders raw HTML while the GFM tag filter escapes unsafe tags (`iframe`, `script`, `style`, and so on) to plain text. Matches GitHub's web rendering.
 - `"off"` — discards raw HTML entirely. Use this when you want only Markdown syntax reflected in the output.
 - `"all"` — renders with no filter. `<script>` and `<iframe>` will also run, so use only when all sources are trusted.
+
+### `frontmatter`
+
+Render a metadata table from page frontmatter, shown between the page title and body. Set `fields` to the frontmatter you want surfaced; pages that lack a field simply omit that row. Omit `frontmatter` entirely and no table is rendered.
+
+```json
+{
+  "frontmatter": {
+    "fields": [
+      { "key": "status", "label": "Status", "style": "badge" },
+      { "key": "author", "label": "Author" }
+    ]
+  }
+}
+```
+
+| Field | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `fields` | `Field[]` | – | The frontmatter fields to render, in order. Each entry has the fields below. |
+
+Each `fields` entry:
+
+| Field | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `key` | `string` | **required** | The frontmatter key to read. |
+| `label` | `string` | the `key` | The label shown in the left column. |
+| `style` | `"text"` \| `"badge"` | `"text"` | How the value is rendered. |
+
+- `"text"` — plain text. Array values are joined with commas.
+- `"badge"` — a filled chip. Array values render as one chip per item.
+
+Empty values (missing, `null`, `""`, or an empty array) hide the row. `Date` values are formatted as `YYYY-MM-DD`.
 
 ### `i18n`
 

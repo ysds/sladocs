@@ -24,6 +24,7 @@ const DEFAULT_EXCLUDE: string[] = [];
 
 export function normalizeProjects(config: ParsedAppConfig): NormalizedProjectConfig[] {
   const baseDir = process.env.ROOT_DIR ?? process.cwd();
+  const globalExclude = config.exclude ?? [];
   const raw: ProjectConfig[] =
     config.projects && config.projects.length > 0
       ? config.projects
@@ -43,7 +44,7 @@ export function normalizeProjects(config: ParsedAppConfig): NormalizedProjectCon
       slug,
       dir,
       include: project.include ?? DEFAULT_INCLUDE,
-      exclude: project.exclude ?? DEFAULT_EXCLUDE,
+      exclude: [...globalExclude, ...(project.exclude ?? DEFAULT_EXCLUDE)],
     };
   });
 }

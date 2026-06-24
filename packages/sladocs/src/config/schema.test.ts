@@ -6,8 +6,10 @@ describe('configSchema', () => {
     const config = configSchema.parse({});
     expect(config.site).toEqual({ title: 'sladocs' });
     expect(config.markdown).toEqual({ allowDangerousHtml: 'safe' });
+    expect(config.frontmatter).toEqual({});
     expect(config.color).toEqual({});
     expect(config.projects).toBeUndefined();
+    expect(config.exclude).toBeUndefined();
     expect(config.i18n).toBeUndefined();
   });
 
@@ -67,6 +69,56 @@ describe('configSchema', () => {
         i18n: { languages: [], defaultLanguage: 'en' },
       });
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe('exclude', () => {
+    it('accepts a top-level exclude array', () => {
+      const config = configSchema.parse({ exclude: ['**/CLAUDE.md', '**/_template.md'] });
+      expect(config.exclude).toEqual(['**/CLAUDE.md', '**/_template.md']);
+    });
+
+    it('defaults to undefined when omitted', () => {
+      expect(configSchema.parse({}).exclude).toBeUndefined();
+    });
+  });
+
+  describe('frontmatter', () => {
+    it('defaults to empty when omitted', () => {
+      expect(configSchema.parse({}).frontmatter).toEqual({});
+    });
+
+    it('accepts a fields array and defaults style to text', () => {
+      const config = configSchema.parse({
+        frontmatter: {
+          fields: [
+            { key: 'status', label: 'Status', style: 'badge' },
+            { key: 'owner', label: 'Owner' },
+          ],
+        },
+      });
+      expect(config.frontmatter.fields).toHaveLength(2);
+      expect(config.frontmatter.fields![0]).toEqual({ key: 'status', label: 'Status', style: 'badge' });
+      expect(config.frontmatter.fields![1]).toEqual({ key: 'owner', label: 'Owner', style: 'text' });
+    });
+
+    it('allows label to be omitted', () => {
+      const config = configSchema.parse({ frontmatter: { fields: [{ key: 'status' }] } });
+      expect(config.frontmatter.fields![0]).toEqual({ key: 'status', style: 'text' });
+    });
+
+    it('rejects a field without a key', () => {
+      expect(
+        configSchema.safeParse({ frontmatter: { fields: [{ label: 'X' }] } }).success,
+      ).toBe(false);
+    });
+
+    it('rejects an unknown style value', () => {
+      expect(
+        configSchema.safeParse({
+          frontmatter: { fields: [{ key: 'x', label: 'X', style: 'pill' }] },
+        }).success,
+      ).toBe(false);
     });
   });
 });
