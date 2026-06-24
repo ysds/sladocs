@@ -17,7 +17,7 @@ All `sladocs` needs is a directory containing Markdown — no configuration, no 
 npx sladocs
 ```
 
-This previews the current directory. Pass a path to preview a different one.
+This collects the docs under the current directory, builds the site, and previews it. Pass a path to start from a different directory.
 
 ```bash
 npx sladocs ./docs
@@ -32,12 +32,12 @@ ready: http://localhost:8080/
 Press `Ctrl-C` to cleanly shut down the file watcher and the HTTP server.
 
 > [!NOTE]
-> On first run, `sladocs` is downloaded into the npm cache.
-> Subsequent runs reuse that cache and start in under a second.
+> On first run, `sladocs` is downloaded into the npm cache, which takes a few
+> seconds. Subsequent runs reuse that cache and start quickly.
 
-## What gets included
+## Which pages are included
 
-`sladocs` builds the site by collecting the Markdown (`.md`, `.mdx`) and `meta.json` files under the target directory. The sidebar, search, and hot reload all follow this collected set. `.mdx` files are parsed as Markdown only — JSX and `import`/`export` are left as plain text, not evaluated.
+`sladocs` builds the site from the Markdown (`.md`, `.mdx`) pages under the target directory; `meta.json` files are picked up alongside them for navigation. The sidebar, search, and hot reload all follow this collected set. `.mdx` files are parsed as Markdown only — JSX and `import`/`export` are left as plain text, not evaluated.
 
 For a git repository, files listed in `.gitignore` are excluded automatically — you don't need to spell out `node_modules`, `dist`, and so on. For a non-git directory, only `node_modules` is excluded.
 
@@ -70,8 +70,6 @@ Declare your languages in `sladocs.json` and name files by locale (`guide.md`, `
 See [`i18n`](./configuration.md#i18n) for file naming, URL layout, and switcher labels.
 
 ## CLI reference
-
-`sladocs` provides only a single command. There are no subcommands.
 
 ```text
 sladocs [dirs...] [options]

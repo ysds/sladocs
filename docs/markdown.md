@@ -194,11 +194,11 @@ The same applies to non-Markdown files such as HTML prototypes, PDFs, and script
 
 Try it: [open the login prototype](./prototypes/login.html). It's just an HTML file with `login.css` next to it.
 
-`sladocs` resolves paths relative to the page and serves them under `/api/asset/…`. Because the served URL preserves the actual directory structure, relative references *inside* the HTML (such as `./login.css`) also resolve correctly, so self-contained prototypes just work.
+`sladocs` resolves paths relative to the page and serves them under `/api/asset/…`. Because the served URL preserves the actual directory structure, relative references *inside* the HTML (such as `./login.css`) also resolve correctly.
 
 Only relative paths can be resolved, which keeps the same links working on GitHub too. Absolute URLs (`https://…`) are passed through as-is, and paths cannot escape outside the project directory.
 
-Not everything under the project is served, either: assets follow the same exclusion rules as page collection. Git-ignored files, the `.git` directory, and files whose name starts with a dot (`.env` and the like) answer 404, and a symlink is followed only if its target stays inside the project. If a linked image unexpectedly returns 404, check whether `.gitignore` covers it. These rules are what keep a LAN preview (`-H 0.0.0.0`) from exposing files that were never meant to be part of the docs.
+Not everything under the project is served, either: assets follow the same exclusion rules as page collection. Git-ignored files, the `.git` directory, and files whose name starts with a dot (`.env` and the like) return 404, and a symlink is followed only if its target stays inside the project. If a linked image unexpectedly returns 404, check whether `.gitignore` covers it. These rules are what keep a LAN preview (`-H 0.0.0.0`) from exposing files that were never meant to be part of the docs.
 
 > [!NOTE]
 > Assets are re-read on every request, but editing them does not trigger hot reload (only collected pages — `.md`, `.mdx` — and `meta.json` do). Reload the browser to pick up changes.

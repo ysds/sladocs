@@ -6,5 +6,9 @@
     "github": "https://github.com/ysds/sladocs",
     "ogImage": "og-image.png",
     "favicon": "favicon.svg"
+  },
+  "i18n": {
+    "languages": ["en", "ja"],
+    "defaultLanguage": "en"
   }
 }

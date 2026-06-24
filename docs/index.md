@@ -21,19 +21,19 @@ npx sladocs
 
 ## When to use sladocs
 
-If you keep your documentation as Markdown in the same repository as your code, `sladocs` is a simple way to read it. It mirrors your directory structure in the navigation and searches across every page, so multi-page documents — design notes, runbooks, specifications — are as easy to follow as a single README.
+If you keep your documentation as Markdown in the same repository as your code, `sladocs` is a simple way to read it. It mirrors your directory structure in the navigation and searches across every page, so multi-page documents — design notes, runbooks, specifications — stay easy to navigate however many pages they grow to.
 
-Write in GitHub Flavored Markdown and preview it locally, close to how it will look on GitHub. Add a `meta.json` to order and group your pages the way a reader would expect, rather than by file name.
+Add a `meta.json` to order and group your pages the way a reader would expect, rather than by file name.
 
 ## What you get
 
-- GFM rendering — callouts, code blocks, and inline HTML render close to how they look on GitHub.
+- GFM rendering — callouts, code blocks, inline HTML, and more.
 - Mermaid diagrams, KaTeX math, and Shiki syntax highlighting.
-- Relative links to images, HTML prototypes, PDFs, and more, served as-is.
+- Images, HTML prototypes, PDFs, and other static assets served as-is.
 - `meta.json` navigation, resolved links between pages, and full-text search.
-- Hot reload on save, plus a multi-project layout for several directories at once.
-
-When you are ready to publish, [`sladocs-build`](./static-builds.md) turns the same docs into a static site for GitHub Pages or any web server.
+- Hot reload on save.
+- A multi-project layout for several directories at once.
+- Static builds of the docs site.
 
 ## How it differs from fumadocs-preview
 

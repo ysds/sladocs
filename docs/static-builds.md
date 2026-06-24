@@ -4,12 +4,9 @@ description: Publish your docs as a static site with sladocs-build.
 icon: Globe
 ---
 
-`sladocs` previews Markdown locally. To **publish** the same docs as a static
-site — GitHub Pages, S3, Netlify, or any web server — use its companion CLI,
+`sladocs` previews Markdown locally. To build a static site from the same docs,
+use its companion CLI,
 [`sladocs-build`](https://www.npmjs.com/package/sladocs-build).
-
-It reads the same directory and the same `sladocs.json`, then emits plain
-HTML/CSS/JS with no server to run.
 
 ```bash
 npx sladocs-build ./docs --out ./site
